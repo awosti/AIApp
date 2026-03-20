@@ -1,4 +1,3 @@
- 
 document.getElementById("again-btn").addEventListener("click", () => {
   location.reload();
     gtag('event', 'again');
@@ -11,8 +10,6 @@ document.getElementById("advertising-btn").addEventListener("click", async() => 
     'hour_of_day': new Date().getHours()
   });
 
- 
-
   const productName = document.getElementById("name").value;
   const productDesc = document.getElementById("desc").value;
   const productTarget = document.getElementById("target").value;
@@ -23,12 +20,8 @@ document.getElementById("advertising-btn").addEventListener("click", async() => 
  
   try {
     const response = await fetchReply(productName, productDesc, productTarget);
-    // Insert the formatted list into ad-output
     document.getElementById('ad-output').insertAdjacentText('beforeend', response);
 
-   
-
-  // Show thumbs up/down buttons
         document.getElementById("ad-output").insertAdjacentHTML('beforeend', `
             <div id="feedback-container" class="rating">
     <p>Was this result helpful?</p>
@@ -37,7 +30,6 @@ document.getElementById("advertising-btn").addEventListener("click", async() => 
      </div>
         `);
 
-        // Add event listeners
         document.getElementById("thumbs-up").addEventListener("click", () => {
             document.getElementById("thumbs-up").classList.add("active");
             document.getElementById("thumbs-down").classList.remove("active");
@@ -53,7 +45,6 @@ document.getElementById("advertising-btn").addEventListener("click", async() => 
         });
 
         function disableFeedback() {
-            // Keep the selected color but disable further clicks
             document.getElementById("thumbs-up").style.pointerEvents = "none";
             document.getElementById("thumbs-down").style.pointerEvents = "none";
         }
@@ -69,7 +60,8 @@ document.getElementById("advertising-btn").addEventListener("click", async() => 
 
 
 async function fetchReply(productName, productDesc, targetMarket){
-  const url = 'https://itom6219.netlify.app/.netlify/functions/fetchAI';
+  // Updated URL to alija branch
+  const url = 'https://alija--itom6219.netlify.app/.netlify/functions/fetchAI';
 
   try {
       const response = await fetch(url, {
@@ -79,13 +71,12 @@ async function fetchReply(productName, productDesc, targetMarket){
       });
 
       const data = await response.json();
-      console.info("API Response:", data); // Log API response
+      console.info("API Response:", data);
       const cleanText = data.reply.choices[0].text.trim();
       return cleanText;
- 
       
   } catch (error) {
-      console.error("Fetch API Error:", error); // Log fetch errors
+      console.error("Fetch API Error:", error);
       alert("An error occurred while fetching the response. Check the console for details.");
   }
 }
@@ -101,11 +92,8 @@ document.getElementById("competitor-btn").addEventListener("click", async () => 
       return;
   }
 
-  //document.getElementById("product-results").innerHTML = "Searching...";
-
   try {
       const response = await fetchCompetitors(productName, productDesc, targetMarket);
-      // Insert the formatted list into ad-output
       document.getElementById('ad-output').insertAdjacentHTML('beforeend', `<ul>${response}</ul>`);
       document.getElementById('ad-input').style.display = 'none';
       document.getElementById('ad-output').style.display = 'block';
@@ -117,11 +105,9 @@ document.getElementById("competitor-btn").addEventListener("click", async () => 
 });
 
 
-
-
-
-async function fetchCompetitors(productName, productDesc, targetMarket ) {
-  const url = 'https://itom6219.netlify.app/.netlify/functions/fetchCompetitors';
+async function fetchCompetitors(productName, productDesc, targetMarket) {
+  // Updated URL to alija branch
+  const url = 'https://alija--itom6219.netlify.app/.netlify/functions/fetchCompetitors';
 
   try {
       const response = await fetch(url, {
@@ -135,8 +121,7 @@ async function fetchCompetitors(productName, productDesc, targetMarket ) {
       }
 
       const data = await response.json();
-      // Extract and format bullet points
-      const formattedText = data.results.split("\n").filter(item => item.trim() !== "").map(item => `<li>${item.trim()}</li>`).join(""); // Join into a single string
+      const formattedText = data.results.split("\n").filter(item => item.trim() !== "").map(item => `<li>${item.trim()}</li>`).join("");
       return formattedText;
   } catch (error) {
       console.error("Fetch Products Error:", error);
